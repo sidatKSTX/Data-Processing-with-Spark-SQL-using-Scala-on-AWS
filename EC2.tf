@@ -8,9 +8,9 @@ resource "aws_vpc" "main_vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "main_vpc"
-  }
+  })
 }
 
 # Subnet
@@ -20,18 +20,18 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
   availability_zone       = "us-east-2a"
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "public_subnet"
-  }
+  })
 }
 
 # Internet Gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main_vpc.id
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "main_igw"
-  }
+  })
 }
 
 # Route Table
@@ -43,9 +43,9 @@ resource "aws_route_table" "public_rt" {
     gateway_id = aws_internet_gateway.igw.id
   }
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "public_rt"
-  }
+  })
 }
 
 # Associate route table with subnet
@@ -74,9 +74,9 @@ resource "aws_security_group" "allow_all" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "allow_all_sg"
-  }
+  })
 }
 
 # EC2 Instance
@@ -93,7 +93,7 @@ resource "aws_instance" "spark_ec2" {
     volume_type = "gp2"
   }
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "spark-ec2-instance"
-  }
+  })
 }

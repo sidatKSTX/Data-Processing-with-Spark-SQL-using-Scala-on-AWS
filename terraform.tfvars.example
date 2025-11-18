@@ -1,0 +1,14 @@
+# Example terraform.tfvars file
+# Copy this to terraform.tfvars and customize
+
+# Optional: Override AWS IAM username for resource tagging
+# If not set, will automatically use current AWS IAM user
+# created_by = "custom-username"
+
+# Override default tags if needed
+default_tags = {
+  Project     = "spark3"
+  Environment = "dev"
+  ManagedBy   = "terraform"
+  CostCenter  = "analytics"
+}
